@@ -2,6 +2,7 @@ package co.uk.plumrm.kata01_TDD;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MyLibrary {
@@ -17,7 +18,14 @@ public class MyLibrary {
         return INSTANCE;
     }
 
-    public void add(Book book) {
+    public List<Book> filterByScore(int maxValue) {
+
+        return library.stream()
+                .filter( (book)-> book.getRating() > maxValue)
+                .collect(Collectors.toList());
+    }
+
+    public void addBook(Book book) {
 
         library.add(book);
 

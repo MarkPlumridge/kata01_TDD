@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -17,9 +18,9 @@ public class MyLibraryTest {
     void beforeEachMethod() {
 
         myLibrary = MyLibrary.getINSTANCE();
-        myLibrary.add(new Book("Clean Architecture", "Robert C. Martin", 10));
-        myLibrary.add(new Book("The Clean Coder", "Robert C. Martin", 10));
-        myLibrary.add(new Book("XML Development with Java 2", "O'Reilly", 6));
+        myLibrary.addBook(new Book("Clean Architecture", "Robert C. Martin", 10));
+        myLibrary.addBook(new Book("The Clean Coder", "Robert C. Martin", 10));
+        myLibrary.addBook(new Book("XML Development with Java 2", "O'Reilly", 6));
 
     }
 
@@ -29,14 +30,14 @@ public class MyLibraryTest {
 
       Book cleanCode = new Book("Clean Code", "Robert C. Martin", 10);
 
-      myLibrary.add(cleanCode);
+      myLibrary.addBook(cleanCode);
 
       assertAll("Add Books",
 
               () -> assertEquals("Clean Code", cleanCode.getTitle()),
-              () -> assertEquals(3, myLibrary.getBookCount(), "Book Count failed!")
+              () -> assertEquals(4, myLibrary.getBookCount(), "Book Count failed!")
 
-              );
+      );
 
     }
 
@@ -44,7 +45,7 @@ public class MyLibraryTest {
     @DisplayName("Test Get Stream")
     void testGetStream() {
 
-        myLibrary.add(new Book("Under Construction", "Robert C. Martin", 0));
+        myLibrary.addBook(new Book("Under Construction", "Robert C. Martin", 0));
 
         Stream<Book> stream = myLibrary.getStream();
         // stream.sorted(p -> p.getRating()).forEach(System.out::println);
@@ -62,4 +63,30 @@ public class MyLibraryTest {
                 .forEach(book -> System.out.println(book.toString()));
 
     }
+    @Test
+    @DisplayName("Filter By Score")
+    void filterByScore() {
+
+        myLibrary.addBook(new Book("Clean Architecture", "Robert C. Martin", 7));
+        myLibrary.addBook(new Book("Effective Java", "Joshua Bloch", 10));
+
+        List<Book> filteredBooks = myLibrary.filterByScore(8);
+
+        assertAll("Filter By Score",
+
+                ()-> assertEquals(3, filteredBooks.size(), "Failed to filter books"),
+                ()-> assertEquals(true,
+                        filteredBooks.stream()
+                                .filter( (book)-> book.getTitle().contains("Effective Java"))
+                                .findFirst().isPresent(),
+                        "Failed to find book in filtered list"
+                )
+
+        );
+
+        filteredBooks.stream().forEach( (book -> System.out.println(book.toString())));
+
+    }
+
+
 }
