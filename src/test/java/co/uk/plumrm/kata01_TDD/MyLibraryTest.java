@@ -88,5 +88,33 @@ public class MyLibraryTest {
 
     }
 
+    @Test
+    @DisplayName("Filter By Author (Lambda)")
+    void filterByAuthorLamda() {
 
+        List authorFilterList = myLibrary.filterByAuthorLamda("Robert C. Martin");
+
+        assertEquals(2, authorFilterList.size(), "Count not expected!");
+
+    }
+
+    @Test
+    @DisplayName("Filter By Author (For each)")
+    void filterByAuthorForEach() {
+
+        List authorFilterList = myLibrary.filterByAuthorForEach("Robert C. Martin");
+
+        assertEquals(2, authorFilterList.size(), "Count not expected!");
+
+    }
+
+    @Test
+    @DisplayName("Filter By Author (For i)")
+    void filterByAuthorForI() {
+
+        List<Book> authorFilterList = myLibrary.filterByAuthorForI("Robert C. Martin");
+
+        assertEquals(2, authorFilterList.size(), "Count not expected!");
+
+    }
 }

@@ -47,4 +47,48 @@ public class MyLibrary {
 
     }
 
+    public List filterByAuthorLamda(String author) {
+
+        List<Book> filteredList = library.stream()
+                .filter( (book) -> book.getAuthor().compareTo(author) == 0)
+                .collect(Collectors.toList());
+
+        return filteredList;
+
+    }
+
+    public List filterByAuthorForEach(String author) {
+
+        List<Book> filteredList = new ArrayList<>();
+
+        for (Book book:
+             library) {
+
+            if (book.getAuthor().compareTo(author) == 0) {
+
+                    filteredList.add(book);
+
+            }
+
+        }
+
+        return filteredList;
+    }
+
+    public List<Book> filterByAuthorForI(String author) {
+
+        List<Book> filteredList = new ArrayList<>();
+
+        for (int i = 0; i < library.size(); i++) {
+
+            if (library.get(i).getAuthor().compareTo(author) == 0) {
+
+                filteredList.add(library.get(i));
+
+            }
+
+        }
+
+        return filteredList;
+    }
 }
